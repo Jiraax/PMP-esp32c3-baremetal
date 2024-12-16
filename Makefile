@@ -3,13 +3,12 @@ CFLAGS += -Wdouble-promotion -fno-common -Wconversion
 CFLAGS += -march=rv32imc_zicsr -mabi=ilp32
 CFLAGS += -Os -ffunction-sections -fdata-sections -I.
 LDFLAGS ?= -Tlink.ld -nostdlib -nostartfiles -Wl,--gc-sections $(EXTRA_LINKFLAGS)
-CWD ?= $(realpath $(CURDIR))
 C ?= riscv32-esp-elf-gcc
 SOURCES = startup.c main.c
 
 build: firmware.bin
 
-firmware.elf: $(SOURCES) hal.h link.ld Makefile
+firmware.elf: $(SOURCES) hal.h link.ld pmp.h Makefile
 	$(C) $(CFLAGS) $(CFLAGS_EXTRA) $(SOURCES) $(LDFLAGS) -o $@
 
 firmware.bin: firmware.elf
